@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="hu">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +9,6 @@
     <link rel="stylesheet" href="stilus.css" />
     <title>Flipping Cards</title>
 </head>
-
 <body>
     <canvas id="canvas" width="1400" height="600"></canvas>
 
@@ -38,7 +36,7 @@
                                 <p class="card__price-value"></p>
                             </div>
                             <form action="index2.html">
-                                <input type="submit" value="GO!" href="#popup" class="btn btn--white">
+                                <input type="submit" value="GO!" class="btn btn--white">
                             </form>
                         </div>
                     </div>
@@ -63,7 +61,7 @@
                                 <p class="card__price-value"></p>
                             </div>
                             <!-- Második gomb -->
-                            <form action="index2.html" method="post">
+                            <form action="index2.html">
                                 <input type="submit" value="Go!" class="btn btn--white">
                             </form>
                         </div>
@@ -87,7 +85,7 @@
                                 <p class="card__price-value"></p>
                             </div>
                             <form action="index2.html">
-                                <input type="submit" value="Go!" href="#popup" class="btn btn--white">
+                                <input type="submit" value="Go!" class="btn btn--white">
                             </form>
                         </div>
                     </div>
@@ -96,7 +94,6 @@
         </div>
     </section>
 
-    <script src="https://kit.fontawesome.com/bdd89edb33.js"></script>
     <script>
         var canvas = document.getElementById("canvas");
         canvas.width = window.innerWidth;
@@ -168,7 +165,6 @@ void main(){
             gl.uniform1f(heightHandle, window.innerHeight);
         }
 
-
         //Shader összeállítása és kombinálása forrással
         function compileShader(shaderSource, shaderType) {
             var shader = gl.createShader(shaderType);
@@ -180,30 +176,11 @@ void main(){
             return shader;
         }
 
-        //Hibaüzenet, ha nem talál attribútumot / uniformot
-        function getAttribLocation(program, name) {
-            var attributeLocation = gl.getAttribLocation(program, name);
-            if (attributeLocation === -1) {
-                throw 'Nem található az attribútum: ' + name + '.';
-            }
-            return attributeLocation;
-        }
-
-        function getUniformLocation(program, name) {
-            var attributeLocation = gl.getUniformLocation(program, name);
-            if (attributeLocation === -1) {
-                throw 'Nem található a uniform: ' + name + '.';
-            }
-            return attributeLocation;
-        }
-
-        //************** Shaderek létrehozása **************
-
-        //Vertex és fragment shader létrehozása
+        //Shader források összeállítása
         var vertexShader = compileShader(vertexSource, gl.VERTEX_SHADER);
         var fragmentShader = compileShader(fragmentSource, gl.FRAGMENT_SHADER);
 
-        //Shader programok létrehozása
+        //Shader program összeállítása
         var program = gl.createProgram();
         gl.attachShader(program, vertexShader);
         gl.attachShader(program, fragmentShader);
@@ -225,7 +202,7 @@ void main(){
         gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
 
         // Adataink elrendezése a vertex bufferben
-        var positionHandle = getAttribLocation(program, 'position');
+        var positionHandle = gl.getAttribLocation(program, 'position');
 
         gl.enableVertexAttribArray(positionHandle);
         gl.vertexAttribPointer(positionHandle,
@@ -237,9 +214,9 @@ void main(){
         );
 
         //Uniform handle beállítása
-        var timeHandle = getUniformLocation(program, 'time');
-        var widthHandle = getUniformLocation(program, 'width');
-        var heightHandle = getUniformLocation(program, 'height');
+        var timeHandle = gl.getUniformLocation(program, 'time');
+        var widthHandle = gl.getUniformLocation(program, 'width');
+        var heightHandle = gl.getUniformLocation(program, 'height');
 
         gl.uniform1f(widthHandle, window.innerWidth);
         gl.uniform1f(heightHandle, window.innerHeight);
@@ -260,5 +237,4 @@ void main(){
 
     </script>
 </body>
-
 </html>
